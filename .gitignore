@@ -1,2 +1,7 @@
 .venv
 .env
+env
+.rasa
+models/
+__pycache__
+credentials.yml
