@@ -1,3 +1,4 @@
 requests
-pymongo
-RPi.GPIO
+pymongo[srv]
+python-dotenv
+# RPi.GPIO

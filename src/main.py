@@ -1,9 +1,15 @@
-from pymongo import MongoClient
 import time
+
+from pymongo import MongoClient
+from dotenv import load_dotenv
 from random import randrange
 from os import getenv
 
-client = MongoClient('mongodb://bierbot:bierbot@localhost:27017/')
+load_dotenv()
+
+MONGO_URI = getenv('MONGODB_URI')
+print(MONGO_URI)
+client = MongoClient(MONGO_URI)
 
 # connect with bierbot collection
 db = client.bierbot
