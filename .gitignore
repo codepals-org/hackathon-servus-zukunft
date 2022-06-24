@@ -4,3 +4,4 @@ env
 .rasa
 models/
 __pycache__
+credentials.yml
