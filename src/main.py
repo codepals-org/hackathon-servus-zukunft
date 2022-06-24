@@ -17,9 +17,29 @@ GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(yellow_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 
-GPIO.output(red_led, GPIO.HIGH)
-GPIO.output(yellow_led, GPIO.HIGH)
-GPIO.output(green_led, GPIO.HIGH)
+
+def set_light(temperature):
+    if temperature < THRESHOLD_TEMP_OK:
+        light_on(green_led)
+        light_off(yellow_led)
+        light_off(red_led)
+    elif temperature < THRESHOLD_TEMP_BAD:
+        light_off(green_led)
+        light_on(yellow_led)
+        light_off(red_led)
+    else:
+        light_off(green_led)
+        light_on(yellow_led)
+        light_on(red_led)
+
+
+def light_on(pin):
+    GPIO.output(pin, GPIO.HIGH)
+
+
+def light_off(pin):
+    GPIO.output(pin, GPIO.LOW)
+
 
 load_dotenv()
 
@@ -44,4 +64,5 @@ while True:
         "battery": randrange(0, 100)
     }
     client.bierbot.measures.insert_one(measurement)
+    set_light(temp)
     time.sleep(10)
