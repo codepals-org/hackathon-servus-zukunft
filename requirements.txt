@@ -1,4 +1,5 @@
 requests
 pymongo[srv]
 python-dotenv
-# RPi.GPIO
+RPi.GPIO
+w1thermsensor
