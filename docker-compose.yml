@@ -1,0 +1,28 @@
+version: "3.7"
+services:
+  bierbot-mongo:
+    image: mongo
+    restart: always
+    container_name: bierbot-mongo
+    ports:
+      - "27017:27017"
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: bierbot
+      MONGO_INITDB_ROOT_PASSWORD: bierbot
+    volumes:
+      - bierbotdb:/data/db
+        
+  bierbot-mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: bierbot-mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: bierbot
+      ME_CONFIG_MONGODB_ADMINPASSWORD: bierbot
+
+
+volumes:
+  bierbotdb:
