@@ -14,6 +14,14 @@ from rasa_sdk.executor import CollectingDispatcher
 
 import json
 
+from pymongo import MongoClient
+
+def read_data(value):
+    assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
+    url = 'mongodb+srv://bierbot:@cluster0.q18wv.mongodb.net/?retryWrites=true&w=majority'
+    client = MongoClient(url)
+    db=client.bierbot
+    return db.measures.find_one().__getattribute__(value)
 
 class ActionOrderDrink(Action):
 
@@ -73,9 +81,7 @@ class ActionQueryHumidity(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
-            mock_data = json.load(file)
-            humid = mock_data['humidity']
+        humid = read_data('humidity')
 
         dispatcher.utter_message(text=f"Die Luftfeuchtigkeit beträgt gerade {humid} Prozent.")
 
@@ -90,9 +96,7 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
-            mock_data = json.load(file)
-            temp = mock_data['temperature']
+        temp = read_data('temperature1')
 
         if temp > 20:
             dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
@@ -111,9 +115,7 @@ class ActionQueryWeight(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
-            mock_data = json.load(file)
-            weight = mock_data['weight']
+        weight = read_data('weight')
 
         drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
         if not drink_type:
