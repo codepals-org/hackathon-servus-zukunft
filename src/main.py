@@ -11,9 +11,6 @@ green_led = 20
 red_led = 16
 yellow_led = 26
 
-THRESHOLD_TEMP_OK = 18
-THRESHOLD_TEMP_BAD = 20
-
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(red_led, GPIO.OUT)
@@ -21,11 +18,7 @@ GPIO.setup(yellow_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
 
 def set_light(temperature):
-    if temperature is None:
-        light_off(green_led)
-        light_off(yellow_led)
-        light_off(red_led)
-    elif temperature < THRESHOLD_TEMP_OK:
+    if temperature < THRESHOLD_TEMP_OK:
         light_on(green_led)
         light_off(yellow_led)
         light_off(red_led)
@@ -52,6 +45,12 @@ light_off(yellow_led)
 
 load_dotenv()
 
+import requests
+def trigger_bot(payload):
+    url = "https://api.yrecipes.de:5005/conversations/default/trigger_intent?output_channel=latest"
+    headers = {'content-type': 'application/json'}
+    r = requests.post(url, data=payload, headers=headers)
+
 MONGO_URI = getenv('MONGODB_URI')
 print(MONGO_URI)
 client = MongoClient(MONGO_URI)
@@ -68,11 +67,15 @@ while True:
         "temperature2": w1_sensor.get_temperature(),
         "timestamp": time.strftime("%H:%M:%S"),
         "humidity": humidity,
-        "weight": randrange(400, 500),
+        "weight": randrange(20, 500),
         "gps": "52.5,13.5",
         "battery": randrange(0, 100)
     }
-    client.bierbot.measures.insert_one(measurement)
-    print(temp)
-    set_light(temp)
+    client.bierbot.measures.insert_one(measurement)ampel
+    if temp is not None:
+        set_light(temp)
+        if temp > 20:
+            trigger_bot(payload = '{"name": "ask_temperature"}')
+        if weight < 1000:
+            trigger_bot(payload = '{"name": "ask_weight"}')
     time.sleep(10)

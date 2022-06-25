@@ -26,3 +26,8 @@ rules:
   steps:
   - intent: ask_temperature
   - action: action_query_temperature
+
+- rule: ask humidity
+  steps:
+  - intent: ask_humidity
+  - action: action_query_humidity
