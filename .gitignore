@@ -5,3 +5,5 @@ env
 models/
 __pycache__
 credentials.yml
+chatbot/rasa_project/credentials.yml
+chatbot/mongodbtest.py

@@ -90,12 +90,23 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
+- intent: no_wishes
+  examples: |
+    - Ich brauche nichts
+    - Nein danke
+    - Ich habe keinen Durst
+    - Alles gut
+    - Vielleicht später
+    - Gerade nicht
+
 - intent: order
   examples: |
     - Ich möchte ein [Bier](drink)
     - Ein [Spezi](drink) bitte
     - Ich möchte [0.5 Liter](size) [Bier](drink)
     - Ein [Spezi](drink) in Größe [1 Liter](size)
+    - Ich will ein [Apfelschorle](drink) bestellen
+    - Bitte noch ein [Apfelschorle](drink)
 
 - intent: ask_temperature
   examples: |
@@ -103,6 +114,7 @@ nlu:
     - Welche Temperatur hat mein [Spezi](drink)?
     - Ist mein [Spezi](drink) noch kalt?
     - Ist mein [Bier](drink) zu warm?
+    - Wie heiß ist mein [Apfelschorle](drink)?
 
 - intent: ask_weight
   examples: |
@@ -111,4 +123,12 @@ nlu:
     - Wie viel [Bier](drink) ist noch übrig?
     - Brauche ich ein neues [Getränk](drink)?
     - Ist mein [Spezi](drink) leer?
-    - Wie leer ist mein [Apfelsaft](drink)?
+    - Wie leer ist mein [Apfelschorle](drink)?
+
+- intent: ask_humidity
+  examplex: |
+  - Wie feucht ist die Luft?
+  - Wie hoch ist die Luftfeuchtigkeit?
+  - Ist es schwül?
+  - Ist es trocken?
+  - Warum schwitze ich so?
