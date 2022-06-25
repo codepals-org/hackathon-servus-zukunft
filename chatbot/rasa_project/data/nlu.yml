@@ -127,8 +127,8 @@ nlu:
 
 - intent: ask_humidity
   examples: |
-  - Wie feucht ist die Luft?
-  - Wie hoch ist die Luftfeuchtigkeit?
-  - Ist es schwül?
-  - Ist es trocken?
-  - Warum schwitze ich so?
+    - Wie feucht ist die Luft?
+    - Wie hoch ist die Luftfeuchtigkeit?
+    - Ist es schwül?
+    - Ist es trocken?
+    - Warum schwitze ich so?
