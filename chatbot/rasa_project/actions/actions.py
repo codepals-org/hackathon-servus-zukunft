@@ -13,8 +13,6 @@ from os import getenv
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
-import json
-
 from pymongo import MongoClient
 
 load_dotenv()
@@ -55,9 +53,9 @@ class ActionOrderDrink(Action):
             else:
                 dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar. Wähle:")
             dispatcher.utter_message(buttons = [
-            {"payload": '/order{"drink":"Bier"}', "title": "Bier"},
-            {"payload": '/order{"drink":"Bier"}', "title": "Spezi"},
-            {"payload": '/order{"drink":"Apfelschorle"}', "title": "Apfelschorle"}
+            {"payload": '/order{"drink":"Bier"}', "title": "Bier", "button_type": 'vertical'},
+            {"payload": '/order{"drink":"Bier"}', "title": "Spezi", "button_type": 'vertical'},
+            {"payload": '/order{"drink":"Apfelschorle"}', "title": "Apfelschorle", "button_type": 'vertical'}
             ])
 
         elif drink_size not in ['1 Liter', '0.5 Liter']:
@@ -66,8 +64,8 @@ class ActionOrderDrink(Action):
             else:
                 dispatcher.utter_message(f"Größe {drink_size} ist leider nicht verfügbar.")
             dispatcher.utter_message(buttons = [
-            {"payload": f'/order\u007b"drink":"{drink_type}","size":"0.5 Liter"\u007d', "title": "0.5 Liter"},
-            {"payload": f'/order\u007b"drink":"{drink_type}","size":"1 Liter"\u007d', "title": "1 Liter"}
+            {"payload": f'/order\u007b"drink":"{drink_type}","size":"0.5 Liter"\u007d', "title": "0.5 Liter", "button_type": 'vertical'},
+            {"payload": f'/order\u007b"drink":"{drink_type}","size":"1 Liter"\u007d', "title": "1 Liter", "button_type": 'vertical'}
             ])
 
         else:
@@ -133,8 +131,8 @@ class ActionQueryWeight(Action):
             dispatcher.utter_message(text=f"Dein {drink_type} ist fast leer! Nur noch {weight} Milliliter.")
             dispatcher.utter_message(text="Möchtest du ein neues bestellen?")
             dispatcher.utter_message(buttons = [
-                    {"payload": f'/order\u007b"drink":"{drink_type}"\u007d', "title": "Ja"},
-                    {"payload": "/no_wishes", "title": "Nein"},
+                    {"payload": f'/order\u007b"drink":"{drink_type}"\u007d', "title": "Ja", "button_type": 'vertical'},
+                    {"payload": "/no_wishes", "title": "Nein", "button_type": 'vertical'},
                 ])
 
         if weight >= 100:

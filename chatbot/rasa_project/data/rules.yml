@@ -36,3 +36,8 @@ rules:
   steps:
   - intent: ask_humidity
   - action: action_query_humidity
+
+- rule: greet
+  steps:
+  - intent: greet
+  - action: utter_greet
