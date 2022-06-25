@@ -32,7 +32,6 @@ class ActionOrderDrink(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        print(tracker.latest_message['sender_id'])
         try:
             drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
         except IndexError:
@@ -52,21 +51,17 @@ class ActionOrderDrink(Action):
                 dispatcher.utter_message(f"Kein Getränk ausgewählt. Wähle:")
             else:
                 dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar. Wähle:")
-            dispatcher.utter_message(buttons = [
-            {"payload": '/order{"drink":"Bier"}', "title": "Bier", "button_type": 'vertical'},
-            {"payload": '/order{"drink":"Bier"}', "title": "Spezi", "button_type": 'vertical'},
-            {"payload": '/order{"drink":"Apfelschorle"}', "title": "Apfelschorle", "button_type": 'vertical'}
-            ])
+            dispatcher.utter_message(response='utter_order_button')
 
-        elif drink_size not in ['1 Liter', '0.5 Liter']:
-            if not drink_size:
-                dispatcher.utter_message(f"Welche Größe?")
-            else:
-                dispatcher.utter_message(f"Größe {drink_size} ist leider nicht verfügbar.")
-            dispatcher.utter_message(buttons = [
-            {"payload": f'/order\u007b"drink":"{drink_type}","size":"0.5 Liter"\u007d', "title": "0.5 Liter", "button_type": 'vertical'},
-            {"payload": f'/order\u007b"drink":"{drink_type}","size":"1 Liter"\u007d', "title": "1 Liter", "button_type": 'vertical'}
-            ])
+        # elif drink_size not in ['1 Liter', '0.5 Liter']:
+        #     if not drink_size:
+        #         dispatcher.utter_message(f"Welche Größe?")
+        #     else:
+        #         dispatcher.utter_message(f"Größe {drink_size} ist leider nicht verfügbar.")
+        #     dispatcher.utter_message(buttons = [
+        #     {"payload": f'/order\u007b"drink":"{drink_type}","size":"0.5 Liter"\u007d', "title": "0.5 Liter", "button_type": 'vertical'},
+        #     {"payload": f'/order\u007b"drink":"{drink_type}","size":"1 Liter"\u007d', "title": "1 Liter", "button_type": 'vertical'}
+        #     ])
 
         else:
             dispatcher.utter_message(text=f"Du hast ein {drink_type} in Größe {drink_size} bestellt.")
@@ -130,10 +125,7 @@ class ActionQueryWeight(Action):
         if weight < 100:            
             dispatcher.utter_message(text=f"Dein {drink_type} ist fast leer! Nur noch {weight} Milliliter.")
             dispatcher.utter_message(text="Möchtest du ein neues bestellen?")
-            dispatcher.utter_message(buttons = [
-                    {"payload": f'/order\u007b"drink":"{drink_type}"\u007d', "title": "Ja", "button_type": 'vertical'},
-                    {"payload": "/no_wishes", "title": "Nein", "button_type": 'vertical'},
-                ])
+            dispatcher.utter_message(response='utter_new_order')
 
         if weight >= 100:
             dispatcher.utter_message(text=f"Du hast noch {weight} Milliliter Bier.")

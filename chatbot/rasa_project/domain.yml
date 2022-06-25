@@ -42,6 +42,27 @@ responses:
   utter_helpfulness:
   - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
 
+  utter_order_button:
+  - buttons:
+    - payload: '/order{"drink":"Bier"}'
+      title: "Bier"
+      button_type: 'vertical'
+    - payload: '/order{"drink":"Bier"}'
+      title: "Spezi"
+      button_type: 'vertical'
+    - payload: '/order{"drink":"Apfelschorle"}'
+      title: "Apfelschorle"
+      button_type: 'vertical'
+  
+  utter_new_order:
+  - buttons:
+    - payload: '/order'
+      title: "Ja"
+      button_type: 'vertical'
+    - payload: "/no_wishes"
+      title: "Nein"
+      button_type: 'vertical'
+
 actions:
   - action_order_drink
   - action_query_temperature
