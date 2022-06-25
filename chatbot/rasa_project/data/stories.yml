@@ -34,7 +34,7 @@ stories:
   - intent: no_wishes
   - action: utter_helpfulness
 
-- story:
+- story: normal conversation
   steps:
   - intent: greet
   - action: utter_greet

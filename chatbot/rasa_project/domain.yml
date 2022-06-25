@@ -13,6 +13,7 @@ intents:
   - ask_weight
   - no_wishes
   - ask_humidity
+  - thanks
 
 entities:
   - drink
@@ -49,6 +50,7 @@ actions:
   - action_query_temperature
   - action_query_weight
   - action_query_humidity
+  - action_session_start
 
 session_config:
   session_expiration_time: 60
