@@ -15,6 +15,7 @@ nlu:
     - los gehts
     - schönen tag
     - hallöchen
+    - start
 
 - intent: goodbye
   examples: |
