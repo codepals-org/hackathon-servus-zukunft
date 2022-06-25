@@ -12,6 +12,7 @@ intents:
   - ask_temperature
   - ask_weight
   - no_wishes
+  - ask_humidity
 
 entities:
   - drink
