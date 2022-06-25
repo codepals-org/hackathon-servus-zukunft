@@ -18,7 +18,7 @@ from pymongo import MongoClient
 
 def read_data(value):
     assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
-    url = 'mongodb+srv://bierbot:@cluster0.q18wv.mongodb.net/?retryWrites=true&w=majority'
+    url = 'mongodb+srv://bierbot:PASSWORD@cluster0.q18wv.mongodb.net/?retryWrites=true&w=majority'
     client = MongoClient(url)
     db=client.bierbot
     return db.measures.find_one().__getattribute__(value)

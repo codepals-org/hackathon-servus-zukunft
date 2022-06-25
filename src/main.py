@@ -25,7 +25,7 @@ load_dotenv()
 
 import requests
 def trigger_bot(payload):
-    url = "http://localhost:5005/conversations/default/trigger_intent?output_channel=latest"
+    url = "https://api.yrecipes.de:5005/conversations/default/trigger_intent?output_channel=latest"
     headers = {'content-type': 'application/json'}
     r = requests.post(url, data=payload, headers=headers)
 

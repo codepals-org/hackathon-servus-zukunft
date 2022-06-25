@@ -11,7 +11,7 @@
 #https://rasa.com/docs/rasa/custom-actions
 
 callback:
-  url: "http://localhost:5005/bot"
+  url: "https://api.yrecipes.de:5005/bot"
 
 action_endpoint:
   url: "http://app:5055/webhook"
