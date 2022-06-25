@@ -19,7 +19,11 @@ GPIO.setup(green_led, GPIO.OUT)
 
 
 def set_light(temperature):
-    if temperature < THRESHOLD_TEMP_OK:
+    if temperature is None:
+        light_off(green_led)
+        light_off(yellow_led)
+        light_off(red_led)
+    elif temperature < THRESHOLD_TEMP_OK:
         light_on(green_led)
         light_off(yellow_led)
         light_off(red_led)
