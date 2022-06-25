@@ -4,8 +4,8 @@ rules:
 
 - rule: welcome user
   steps:
-    - intent: start
-    - action: utter_greet
+  - intent: greet
+  - action: utter_greet
 
 - rule: Say goodbye anytime the user says goodbye
   steps:
@@ -36,8 +36,3 @@ rules:
   steps:
   - intent: ask_humidity
   - action: action_query_humidity
-
-- rule: greet
-  steps:
-  - intent: greet
-  - action: utter_greet
