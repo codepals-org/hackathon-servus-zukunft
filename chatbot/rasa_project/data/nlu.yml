@@ -126,7 +126,7 @@ nlu:
     - Wie leer ist mein [Apfelschorle](drink)?
 
 - intent: ask_humidity
-  examplex: |
+  examples: |
   - Wie feucht ist die Luft?
   - Wie hoch ist die Luftfeuchtigkeit?
   - Ist es schwül?
