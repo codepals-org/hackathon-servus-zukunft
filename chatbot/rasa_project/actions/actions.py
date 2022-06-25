@@ -81,7 +81,7 @@ class ActionQueryHumidity(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        #humid = read_data('humidity')
+        humid = read_data('humidity')
 
         dispatcher.utter_message(text=f"Die Luftfeuchtigkeit beträgt gerade {humid} Prozent.")
 
