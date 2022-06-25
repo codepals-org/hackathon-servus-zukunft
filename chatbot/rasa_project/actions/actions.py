@@ -99,7 +99,7 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        temp = read_data('temperature1')
+        temp = read_data('temperature2')
 
         if temp > 20:
             dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
