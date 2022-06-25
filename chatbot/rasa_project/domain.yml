@@ -43,27 +43,24 @@ responses:
   - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
 
   utter_order_button:
-  - text: "Gib deine Bestellung ein."
   - buttons:
     - payload: '/order{"drink":"Bier"}'
       title: "Bier"
-      button_type: 'vertical'
     - payload: '/order{"drink":"Bier"}'
       title: "Spezi"
-      button_type: 'vertical'
     - payload: '/order{"drink":"Apfelschorle"}'
       title: "Apfelschorle"
-      button_type: 'vertical'
+    button_type: 'vertical'
+    text: "Gib deine Bestellung ein."
   
   utter_new_order:
-  - text: "Möchtest du ein neues bestellen?"
   - buttons:
     - payload: '/order'
       title: "Ja"
-      button_type: 'vertical'
     - payload: "/no_wishes"
       title: "Nein"
-      button_type: 'vertical'
+    button_type: 'vertical'
+    text: "Möchtest du ein neues bestellen?"
 
 actions:
   - action_order_drink
