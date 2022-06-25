@@ -8,7 +8,7 @@
 # This is a simple example for a custom action which utters "Hello World!"
 
 from typing import Any, Text, Dict, List
-
+from dotenv import load_dotenv
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
@@ -16,10 +16,13 @@ import json
 
 from pymongo import MongoClient
 
+load_dotenv()
+
+MONGO_URI = getenv('MONGODB_URI')
+
 def read_data(value):
     assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
-    url = 'mongodb+srv://bierbot:PASSWORD@cluster0.q18wv.mongodb.net/?retryWrites=true&w=majority'
-    client = MongoClient(url)
+    client = MongoClient(MONGO_URI)
     db=client.bierbot
     return db.measures.find_one().__getattribute__(value)
 
