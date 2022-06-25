@@ -47,7 +47,7 @@ responses:
   - buttons:
     - payload: '/order{"drink":"Bier"}'
       title: "Bier"
-    - payload: '/order{"drink":"Bier"}'
+    - payload: '/order{"drink":"Spezi"}'
       title: "Spezi"
     - payload: '/order{"drink":"Apfelschorle"}'
       title: "Apfelschorle"
