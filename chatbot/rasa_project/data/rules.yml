@@ -31,3 +31,10 @@ rules:
   steps:
   - intent: ask_humidity
   - action: action_query_humidity
+
+rules:
+  - rule: welcome user
+    conversation_start: true  # this rule only applies at the beginning of a conversation
+    steps:
+      - intent: greet
+      - action: utter_welcome

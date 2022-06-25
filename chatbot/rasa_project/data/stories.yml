@@ -33,3 +33,12 @@ stories:
   steps:
   - intent: no_wishes
   - action: utter_helpfulness
+
+- story:
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: order
+  - action: action_order_drink
+  - intent: thanks
+  - action: utter_helpfulness

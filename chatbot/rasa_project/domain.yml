@@ -20,26 +20,29 @@ entities:
   
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Hallo! Wie geht es dir?"
 
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
+  - text: "Hier ist etwas um dich aufzuheitern:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
-  - text: "Did that help you?"
+  - text: "War das hilfreich?"
 
   utter_happy:
-  - text: "Great, carry on!"
+  - text: "Sehr schön, weiter so."
 
   utter_goodbye:
-  - text: "Bye"
+  - text: "Auf Wiedersehen!"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "Ich bin ein Rasa Bot."
 
   utter_helpfulness:
   - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
+
+  utter_welcome:
+  - text: "Hallo, willkommen bei uns. Möchtest du etwas bestellen?"
 
 actions:
   - action_order_drink
