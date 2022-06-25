@@ -96,7 +96,7 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        #temp = read_data('temperature1')
+        temp = read_data('temperature1')
 
         if temp > 20:
             dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
@@ -115,7 +115,7 @@ class ActionQueryWeight(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        #weight = read_data('weight')
+        weight = read_data('weight')
 
         try:
             drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
