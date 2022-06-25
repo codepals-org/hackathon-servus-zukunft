@@ -9,6 +9,7 @@
 
 from typing import Any, Text, Dict, List
 from dotenv import load_dotenv
+from os import getenv
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
