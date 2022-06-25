@@ -25,7 +25,7 @@ def read_data(value):
     assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
     client = MongoClient(MONGO_URI)
     db=client.bierbot
-    return db.measures.find_one({}, sort=[( '_id', pymongo.DESCENDING)]).get(value)
+    return db.measures.find_one({}, sort=[( '_id', -1)]).get(value)
 class ActionOrderDrink(Action):
 
     def name(self) -> Text:
