@@ -21,7 +21,7 @@ entities:
   
 responses:
   utter_greet:
-  - text: "Hallo! Wie geht es dir?"
+  - text: "Hallo, willkommen bei uns. Möchtest du etwas bestellen?"
 
   utter_cheer_up:
   - text: "Hier ist etwas um dich aufzuheitern:"
@@ -42,15 +42,11 @@ responses:
   utter_helpfulness:
   - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
 
-  utter_welcome:
-  - text: "Hallo, willkommen bei uns. Möchtest du etwas bestellen?"
-
 actions:
   - action_order_drink
   - action_query_temperature
   - action_query_weight
   - action_query_humidity
-  - action_session_start
 
 session_config:
   session_expiration_time: 60
