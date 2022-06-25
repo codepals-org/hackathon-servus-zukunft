@@ -23,6 +23,12 @@ GPIO.output(green_led, GPIO.HIGH)
 
 load_dotenv()
 
+import requests
+def trigger_bot(payload):
+    url = "http://localhost:5005/conversations/default/trigger_intent?output_channel=latest"
+    headers = {'content-type': 'application/json'}
+    r = requests.post(url, data=payload, headers=headers)
+
 MONGO_URI = getenv('MONGODB_URI')
 print(MONGO_URI)
 client = MongoClient(MONGO_URI)
@@ -39,9 +45,13 @@ while True:
         "temperature2": w1_sensor.get_temperature(),
         "timestamp": time.strftime("%H:%M:%S"),
         "humidity": humidity,
-        "weight": randrange(400, 500),
+        "weight": randrange(20, 500),
         "gps": "52.5,13.5",
         "battery": randrange(0, 100)
     }
     client.bierbot.measures.insert_one(measurement)
+    if temp > 20:
+        trigger_bot(payload = '{"name": "ask_temperature"}')
+    if weight < 1000:
+        trigger_bot(payload = '{"name": "ask_weight"}')
     time.sleep(10)

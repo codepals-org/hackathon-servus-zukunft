@@ -31,7 +31,7 @@ class ActionOrderDrink(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
+        print(tracker.latest_message['sender_id'])
         try:
             drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
         except IndexError:
@@ -81,7 +81,7 @@ class ActionQueryHumidity(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        humid = read_data('humidity')
+        #humid = read_data('humidity')
 
         dispatcher.utter_message(text=f"Die Luftfeuchtigkeit beträgt gerade {humid} Prozent.")
 
@@ -96,7 +96,7 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        temp = read_data('temperature1')
+        #temp = read_data('temperature1')
 
         if temp > 20:
             dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
@@ -115,9 +115,12 @@ class ActionQueryWeight(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        weight = read_data('weight')
+        #weight = read_data('weight')
 
-        drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
+        try:
+            drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
+        except IndexError:
+            drink_type = None
         if not drink_type:
             drink_type = 'Getränk'
         
