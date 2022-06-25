@@ -20,7 +20,7 @@ load_dotenv()
 MONGO_URI = getenv('MONGODB_URI')
 
 def read_data(value):
-    assert value in ['temperature2', 'timestamp', 'humidity', 'weight', 'gps']
+    assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
     client = MongoClient(MONGO_URI)
     db=client.bierbot
     return db.measures.find_one({}, sort=[( '_id', -1)]).get(value)
@@ -64,7 +64,7 @@ class ActionOrderDrink(Action):
         #     ])
 
         else:
-            dispatcher.utter_message(text=f"Du hast ein {drink_type} in Größe {drink_size} bestellt.")
+            dispatcher.utter_message(text=f"Du hast ein {drink_type} bestellt.")
 
         return []
 
@@ -92,7 +92,7 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        temp = read_data('temperature2')
+        temp = read_data('temperature1')
 
         if temp > 20:
             dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
