@@ -22,7 +22,7 @@ load_dotenv()
 MONGO_URI = getenv('MONGODB_URI')
 
 def read_data(value):
-    assert value in ['temperature1', 'timestamp', 'humidity', 'weight', 'gps']
+    assert value in ['temperature2', 'timestamp', 'humidity', 'weight', 'gps']
     client = MongoClient(MONGO_URI)
     db=client.bierbot
     return db.measures.find_one({}, sort=[( '_id', -1)]).get(value)
