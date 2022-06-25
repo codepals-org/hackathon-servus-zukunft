@@ -7,6 +7,9 @@ from os import getenv
 import RPi.GPIO as GPIO
 import Adafruit_DHT
 
+THRESHOLD_TEMP_OK = 18
+THRESHOLD_TEMP_BAD = 20
+
 green_led = 20
 red_led = 16
 yellow_led = 26
@@ -71,11 +74,11 @@ while True:
         "gps": "52.5,13.5",
         "battery": randrange(0, 100)
     }
-    client.bierbot.measures.insert_one(measurement)ampel
+    client.bierbot.measures.insert_one(measurement)
     if temp is not None:
         set_light(temp)
         if temp > 20:
             trigger_bot(payload = '{"name": "ask_temperature"}')
-        if weight < 1000:
+        if measurement["weight"] < 1000:
             trigger_bot(payload = '{"name": "ask_weight"}')
     time.sleep(10)
