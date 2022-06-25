@@ -28,3 +28,8 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: offer your help
+  steps:
+  - intent: no_wishes
+  - action: utter_helpfulness

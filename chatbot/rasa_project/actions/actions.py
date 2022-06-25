@@ -27,29 +27,57 @@ class ActionOrderDrink(Action):
         try:
             drink_type = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='drink'][0]
         except IndexError:
+            print('except IndexError drink_type')
+            print(tracker.latest_message['entities'])
             drink_type = None
         try:
             drink_size = [entity['value'] for entity in tracker.latest_message['entities'] if entity['entity']=='size'][0]
         except IndexError:
+            print('except IndexError drink_size')
             drink_size = None
 
+        drink_type = drink_type.capitalize()
+
         if drink_type not in ['Bier', 'Spezi', 'Apfelschorle']:
-            dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar. Wähle:")
+            if not drink_type:
+                dispatcher.utter_message(f"Kein Getränk ausgewählt. Wähle:")
+            else:
+                dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar. Wähle:")
             dispatcher.utter_message(buttons = [
-            {"payload": '/order{{"drink":"{Bier}"}}', "title": "Bier"},
-            {"payload": '/order{{"drink":"{Bier}"}}', "title": "Spezi"},
-            {"payload": '/order{{"drink":"{Apfelschorle}"}}', "title": "Apfelschorle"}
+            {"payload": '/order{"drink":"Bier"}', "title": "Bier"},
+            {"payload": '/order{"drink":"Bier"}', "title": "Spezi"},
+            {"payload": '/order{"drink":"Apfelschorle"}', "title": "Apfelschorle"}
             ])
 
         elif drink_size not in ['1 Liter', '0.5 Liter']:
-            dispatcher.utter_message(f"Größe {drink_size} ist leider nicht verfügbar.")
+            if not drink_size:
+                dispatcher.utter_message(f"Welche Größe?")
+            else:
+                dispatcher.utter_message(f"Größe {drink_size} ist leider nicht verfügbar.")
             dispatcher.utter_message(buttons = [
-            {"payload": '/order{{"drink":"{0.5 Liter}"}}', "title": "0.5 Liter"},
-            {"payload": '/order{{"drink":"{1 Liter}"}}', "title": "1 Liter"}
+            {"payload": f'/order\u007b"drink":"{drink_type}","size":"0.5 Liter"\u007d', "title": "0.5 Liter"},
+            {"payload": f'/order\u007b"drink":"{drink_type}","size":"1 Liter"\u007d', "title": "1 Liter"}
             ])
 
         else:
             dispatcher.utter_message(text=f"Du hast ein {drink_type} in Größe {drink_size} bestellt.")
+
+        return []
+
+class ActionQueryHumidity(Action):
+
+    def name(self) -> Text:
+        return "action_query_humidity"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
+            mock_data = json.load(file)
+            humid = mock_data['humidity']
+
+        dispatcher.utter_message(text=f"Die Luftfeuchtigkeit beträgt gerade {humid} Prozent.")
 
         return []
 
@@ -62,7 +90,15 @@ class ActionQueryTemperature(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="Dein Bier ist warm!")
+        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
+            mock_data = json.load(file)
+            temp = mock_data['temperature']
+
+        if temp > 20:
+            dispatcher.utter_message(text=f"Dein Getränk ist zu warm! Schon {temp} Grad. Trink schnell aus!!!")
+
+        if temp <= 20:
+            dispatcher.utter_message(text=f"Keine Sorge, dein Getränk hat {temp} Grad.")
 
         return []
 
@@ -75,7 +111,7 @@ class ActionQueryWeight(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        with open('/home/sarah/code/bierbot/rasa_project/sample_data.json') as file:
+        with open('/home/sarah/code/hackathon-servus-zukunft/chatbot/rasa_project/sample_data.json') as file:
             mock_data = json.load(file)
             weight = mock_data['weight']
 
@@ -83,12 +119,14 @@ class ActionQueryWeight(Action):
         if not drink_type:
             drink_type = 'Getränk'
         
+        drink_type = drink_type.capitalize()
+
         if weight < 100:            
             dispatcher.utter_message(text=f"Dein {drink_type} ist fast leer! Nur noch {weight} Milliliter.")
             dispatcher.utter_message(text="Möchtest du ein neues bestellen?")
             dispatcher.utter_message(buttons = [
-                    {"payload": f'/order\u007b\u007b"drink":"{drink_type}"\u007d\u007d', "title": "Ja"},
-                    {"payload": "/mood_unhappy", "title": "Nein"},
+                    {"payload": f'/order\u007b"drink":"{drink_type}"\u007d', "title": "Ja"},
+                    {"payload": "/no_wishes", "title": "Nein"},
                 ])
 
         if weight >= 100:

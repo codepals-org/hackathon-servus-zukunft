@@ -9,7 +9,9 @@ intents:
   - mood_unhappy
   - bot_challenge
   - order
-  - info
+  - ask_temperature
+  - ask_weight
+  - no_wishes
 
 entities:
   - drink
@@ -35,10 +37,14 @@ responses:
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
 
+  utter_helpfulness:
+  - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
+
 actions:
   - action_order_drink
   - action_query_temperature
   - action_query_weight
+  - action_query_humidity
 
 session_config:
   session_expiration_time: 60
