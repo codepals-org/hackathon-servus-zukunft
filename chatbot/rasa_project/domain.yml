@@ -43,6 +43,7 @@ responses:
   - text: "Wenn Du einen Wunsch hast, sag mir jederzeit Bescheid."
 
   utter_order_button:
+  - text: "Gib deine Bestellung ein."
   - buttons:
     - payload: '/order{"drink":"Bier"}'
       title: "Bier"
@@ -55,6 +56,7 @@ responses:
       button_type: 'vertical'
   
   utter_new_order:
+  - text: "Möchtest du ein neues bestellen?"
   - buttons:
     - payload: '/order'
       title: "Ja"

@@ -48,9 +48,9 @@ class ActionOrderDrink(Action):
 
         if drink_type not in ['Bier', 'Spezi', 'Apfelschorle']:
             if not drink_type:
-                dispatcher.utter_message(f"Kein Getränk ausgewählt. Wähle:")
+                dispatcher.utter_message(f"Kein Getränk ausgewählt.")
             else:
-                dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar. Wähle:")
+                dispatcher.utter_message(f"{drink_type} ist leider nicht verfügbar.")
             dispatcher.utter_message(response='utter_order_button')
 
         # elif drink_size not in ['1 Liter', '0.5 Liter']:
@@ -124,7 +124,6 @@ class ActionQueryWeight(Action):
 
         if weight < 100:            
             dispatcher.utter_message(text=f"Dein {drink_type} ist fast leer! Nur noch {weight} Milliliter.")
-            dispatcher.utter_message(text="Möchtest du ein neues bestellen?")
             dispatcher.utter_message(response='utter_new_order')
 
         if weight >= 100:
