@@ -1,14 +1,88 @@
-version: '3.0'
+version: '3.7'
 services:
+  reverse-proxy:
+    image: traefik:v2.4
+    restart: always
+    container_name: reverse-proxy
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:5005"
+      - "--entrypoints.https.address=:443"
+      - "--certificatesresolvers.le.acme.email=kg@yspeech.de"
+      - "--certificatesresolvers.le.acme.storage=/certificates/acme.json"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--log.level=INFO"
+      - "--accesslog"
+      - "--log"
+      - "--api"
+    ports:
+      - 80:5005
+      - 443:443
+    labels:
+      - "traefik.enable=true"
+      # HTTP Route
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dashboard.entrypoints=http"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.yrecipes.de`)"
+      # HTTPS Route
+      - "traefik.http.routers.dashboard-https.entrypoints=https"
+      - "traefik.http.routers.dashboard-https.rule=Host(`dashboard.yrecipes.de`)"
+      - "traefik.http.routers.dashboard-https.tls=true"
+      # Resolver settings
+      - "traefik.http.routers.dashboard-https.tls.certresolver=le"
+      - "traefik.http.routers.dashboard-https.service=api@internal"
+      # Middleware for fowarding created
+#      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+ #     - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
+  #    - "traefik.http.routers.dashboard.middlewares=https-redirect"
+      # Auth
+      # - "traefik.http.middlewares.admin-auth.basicauth.users=${DASHBOARD_USER_PASSWORD?User and Password not set}"
+      # - "traefik.http.routers.dashboard-https.middlewares=admin-auth"
+      - "traefik.docker.network=traefik-public"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-public-certificates:/certificates
+    networks:
+      - traefik-public
+  
+
   rasa:
     image: rasa/rasa:3.2.0-full
-    ports:
-      - 5005:5005
     volumes:
       - ./:/app
+    labels:
+      - "traefik.enable=true"
+      # HTTP Route
+      - "traefik.http.services.rasa.loadbalancer.server.port=5005"
+      - "traefik.http.routers.rasa.entrypoints=http"
+      - "traefik.http.routers.rasa.rule=Host(`api.yrecipes.de`)"
+      - "traefik.http.routers.rasa.priority=2"
+      # Domain settings
+      - "traefik.http.routers.rasa-https.entrypoints=https"
+      - "traefik.http.routers.rasa-https.rule=Host(`api.yrecipes.de`)"
+      - "traefik.http.routers.rasa-https.tls=true"
+      # Resolver Settings
+      - "traefik.http.routers.rasa-https.tls.certresolver=le"
+      # Middleware for fowarding created
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.rasa.middlewares=https-redirect"
+      - "traefik.docker.network=traefik-public"
+    networks:
+      - traefik-public
     command:
       - run
   app:
     image: yspeech/bierbot-rasa-actions:latest
-    expose: 
+    expose:
       - 5055
+  
+volumes: 
+  traefik-public-certificates:
+
+networks:
+  traefik-public:
+    external: true

@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Change back to root user to install dependencies
 USER root
-
+RUN apt-get install -y curl
 # Install extra requirements for actions code, if necessary (uncomment next line)
 # RUN pip install -r requirements-actions.txt
 
