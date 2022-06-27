@@ -110,9 +110,12 @@ services:
       # - models
     environment:
       CALLBACK_URL: 'https://api.chatbot.localhost/bot'
-      ACTION_ENDPOINT: 'https://actions.chatbot.localhost/webhook'
+      WEBHOOK_URL: 'https://api.chatbot.localhost/webhooks'
+      ACTION_ENDPOINT: 'http://rasa-actions:5055/webhook'
+      TELEGRAM_BOT_NAME: bierthronbot
       MONGODB_SERVER: bierbot-mongo
       MONGODB_DB_NAME: rasa
+      MONGODB_URI: mongodb+srv://bierbot:bierbot@bierbot-mongo:27017/rasa
       MONGODB_ADMINUSERNAME: bierbot
       MONGODB_ADMINPASSWORD: bierbot
     labels:
@@ -126,8 +129,8 @@ services:
       - "traefik.http.routers.apichatbot-https.tls=true"
       # Resolver settings / Let's encrypt
       - "traefik.http.routers.apichatbot-https.tls.certresolver=le"
-      # Middleware for automatic HTTPS fowarding
-      - "traefik.http.middlewares.rasaheaders.headers.accesscontrolalloworiginlist=*"
+      # Middleware for CORS
+      - "traefik.http.middlewares.rasaheaders.headers.accesscontrolalloworiginlist=https://chatbot.localhost"
       - "traefik.http.routers.apichatbot-https.middlewares=rasaheaders"
     expose:
       - 5005
@@ -145,18 +148,7 @@ services:
       - 5055
     entrypoint: ["/bin/sh", "-c"]
     command: 
-      - python -m rasa_sdk
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.actionschatbot.rule=Host(`actions.chatbot.localhost`)"
-      - "traefik.http.routers.actionschatbot.priority=1"
-      - "traefik.http.routers.actionschatbot.entrypoints=http"
-      # Domain settings
-      - "traefik.http.routers.actionschatbot-https.entrypoints=https"
-      - "traefik.http.routers.actionschatbot-https.rule=Host(`actions.chatbot.localhost`)"
-      - "traefik.http.routers.actionschatbot-https.tls=true"
-      # Resolver settings / Let's encrypt
-      - "traefik.http.routers.actionschatbot-https.tls.certresolver=le"
+      - python -m rasa_sdk --actions actions
 
 volumes:
   bierbotdb: # mongodb persistence

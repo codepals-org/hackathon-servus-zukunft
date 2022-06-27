@@ -13,9 +13,6 @@ USER root
 # Install extra requirements for actions code, if necessary (uncomment next line)
 RUN pip install -r requirements-actions.txt
 
-# Copy the config files to the working directory
-# COPY ./rasa_project/config/config.yml ./
-
 # Copy actions folder to working directory
 COPY ./rasa_project/actions /app/actions
 
