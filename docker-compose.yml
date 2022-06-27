@@ -103,8 +103,8 @@ services:
 
   rasa-server: # The chatbot backend
     container_name: rasa-server
-    # image: rasa/rasa:3.2.0-full
-    image: khalosa/rasa-aarch64 # works on M1 macs
+    image: rasa/rasa:3.2.0-full
+    # image: khalosa/rasa-aarch64 # works on M1 macs
     volumes:
       - ./chatbot/rasa_project:/app
       # - models
@@ -131,11 +131,9 @@ services:
       - "traefik.http.routers.apichatbot-https.middlewares=rasaheaders"
     expose:
       - 5005
-    entrypoint: ["/bin/sh", "-c"]
     command:
-      - "rasa run --cors '*'"
+      - run
     working_dir: /app
-    user: nonroot
 
   rasa-actions: # The chatbot trained model
     container_name: rasa-actions
