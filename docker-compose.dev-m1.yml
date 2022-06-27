@@ -6,6 +6,6 @@ services:
     image: khalosa/rasa-aarch64 # works on M1 macs
     entrypoint: ["/bin/sh", "-c"]
     command:
-      - "rasa run --cors '*'"
+      - "rasa run"
     working_dir: /app
     user: nonroot
